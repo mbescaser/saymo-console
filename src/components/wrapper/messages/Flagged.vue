@@ -77,7 +77,6 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('set_title', 'Messages')
         this.appBreadcrumbs.push(...this.breadcrumbs)
     },
     beforeDestroy() {

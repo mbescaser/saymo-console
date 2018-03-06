@@ -74,7 +74,12 @@ router.beforeEach((to, from, next) => {
         if(store.getters.get_user) {
             if(helpers.isTimedOut(store.getters.get_user.timeLoggedIn)) {
                 store.dispatch('set_user', null)
-                next({path: '/login'})
+                store.dispatch('set_alert_message', {
+                    show: true,
+                    type: 'error',
+                    message: 'Your session has been timed out, please log in again to continue.'
+                })
+                next({path: '/login', query: {redirect: to.fullPath}})
             } else {
                 const user = store.getters.get_user;
                 user.timeLoggedIn = Date.now()
@@ -88,7 +93,12 @@ router.beforeEach((to, from, next) => {
         if(store.getters.get_user) {
             if(helpers.isTimedOut(store.getters.get_user.timeLoggedIn)) {
                 store.dispatch('set_user', null)
-                next({path: '/login'})
+                store.dispatch('set_alert_message', {
+                    show: true,
+                    type: 'error',
+                    message: 'Your session has been timed out, please log in again to continue.'
+                })
+                next({path: '/login', query: {redirect: to.fullPath}})
             } else {
                 next({path: '/dashboard'})
             }

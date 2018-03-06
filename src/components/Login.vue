@@ -55,6 +55,7 @@
 
 <script>
 import { Validator } from 'vee-validate'
+import { mapGetters, mapMutations } from 'vuex'
 import accountService from './wrapper/account/account.service'
 
 const alert = {
@@ -75,6 +76,18 @@ export default {
             password: null,
             loggingIn: false
         }
+    },
+    created() {
+        const alertMessage = this.$store.getters.get_alert_message
+        if(alertMessage) {
+            this.alert = Object.assign(this.alert, alertMessage)
+            this.$store.dispatch('set_alert_message', null)
+        }
+    },
+    computed: {
+        ...mapGetters({
+            user: 'get_user'
+        }),
     },
     methods: {
         formSubmit() {
@@ -97,10 +110,9 @@ export default {
                         .then(response => {
                             user.details = response.data
                             this.$store.dispatch('set_user', user)
-                            this.$router.push('/dashboard')
+                            this.$router.push(this.$route.query.redirect || '/dashboard')
                         })
                         .catch(error => {
-                            console.log(error)
                             this.$nprogress.done()
                             this.loggingIn = !this.loggingIn
                             this.alert = Object.assign(this.alert, {type: 'error', show: true, message: error.message})

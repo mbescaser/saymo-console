@@ -74,7 +74,6 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('set_title', 'Topics')
         this.appBreadcrumbs.push(...this.breadcrumbs)
     },
     beforeDestroy() {

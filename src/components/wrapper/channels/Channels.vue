@@ -19,7 +19,6 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('set_title', 'Channels')
         this.appBreadcrumbs.push(...this.breadcrumbs)
     },
     beforeDestroy() {

@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <v-navigation-drawer fixed v-model="drawer.show" app>
+        <v-navigation-drawer v-bind="drawerOps" v-model="drawer.show" app fixed>
             <v-list>
                 <template v-for="(link, index) in drawer.links">
                     <v-list-group
@@ -39,12 +39,12 @@
                 </template>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar color="primary" dark app>
+        <v-toolbar v-bind="toolbarOps" color="primary" dark app fixed>
             <v-toolbar-side-icon @click.stop="drawer.show = !drawer.show"></v-toolbar-side-icon>
             <v-toolbar-title>Say.Mo</v-toolbar-title>
         </v-toolbar>
         <v-content>
-            <v-breadcrumbs class="pa-3">
+            <v-breadcrumbs class="mx-3 mt-4 mb-2 pa-0">
                 <v-icon slot="divider">chevron_right</v-icon>
                 <v-breadcrumbs-item
                     v-for="(breadcrumb, index) in breadcrumbs"
@@ -119,7 +119,17 @@ export default {
             title: 'get_title',
             activeLinkGroup: 'get_active_link_group',
             breadcrumbs: 'get_breadcrumbs'
-        })
+        }),
+        drawerOps() {
+            return {
+                clipped: this.$vuetify.breakpoint.mdAndUp ? true : false
+            }
+        },
+        toolbarOps() {
+            return {
+                'clipped-left': this.$vuetify.breakpoint.mdAndUp ? true : false
+            }
+        }
     }
 }
 </script>

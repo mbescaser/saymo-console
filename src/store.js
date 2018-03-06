@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         user: null,
-        title: null,
+        alertMessage: null,
         activeLinkGroup: null,
         breadcrumbs: [{
             label: 'Home',
@@ -17,8 +17,8 @@ export default new Vuex.Store({
         get_user(state) {
             return state.user
         },
-        get_title(state) {
-            return state.title
+        get_alert_message(state) {
+            return state.alertMessage
         },
         get_active_link_group(state) {
             return state.activeLinkGroup
@@ -42,8 +42,8 @@ export default new Vuex.Store({
                 window.localStorage.removeItem('saymo_console')
             }
         },
-        SET_TITLE(state, title) {
-            state.title = title
+        SET_ALERT_MESSAGE(state, alertMessage) {
+            state.alertMessage = alertMessage
         },
         SET_ACTIVE_LINK_GOUP(state, activeLinkGroup) {
             state.activeLinkGroup = activeLinkGroup
@@ -56,8 +56,8 @@ export default new Vuex.Store({
         set_user({ commit }, user) {
             commit('SET_USER', user)
         },
-        set_title({ commit }, title) {
-            commit('SET_TITLE', title)
+        set_alert_message({ commit }, alertMessage) {
+            commit('SET_ALERT_MESSAGE', alertMessage)
         },
         set_active_link_group({ commit }, activeLinkGroup) {
             commit('SET_ACTIVE_LINK_GOUP', activeLinkGroup)

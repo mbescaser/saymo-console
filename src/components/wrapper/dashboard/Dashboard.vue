@@ -64,7 +64,6 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('set_title', this.title)
         this.appBreadcrumbs.push(...this.breadcrumbs)
         dashboardService.getDashboardMetrics(this)
             .then(response => {

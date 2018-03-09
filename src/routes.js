@@ -75,18 +75,21 @@ const routes = [{
 }, {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: { guest: true }
 }, {
     path: '/logout',
     name: 'logout',
     component: {
         template: '<div></div>',
         created() {
-            this.$store.dispatch('set_user', null)
+            const user = this.$store.getters.get_user
+            if(user) {
+                this.$store.dispatch('set_user', null)
+            }
             this.$router.push('/login')
         }
-    },
-    meta: { requiresAuth: true }
+    }
 }, {
     path: '*',
     redirect: '/login'

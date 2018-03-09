@@ -77,7 +77,7 @@ export default {
             loggingIn: false
         }
     },
-    created() {
+    mounted() {
         const alertMessage = this.$store.getters.get_alert_message
         if(alertMessage) {
             this.alert = Object.assign(this.alert, alertMessage)

@@ -44,15 +44,17 @@
             <v-toolbar-title>Say.Mo</v-toolbar-title>
         </v-toolbar>
         <v-content>
-            <v-breadcrumbs class="mx-3 mt-4 mb-2 pa-0">
-                <v-icon slot="divider">chevron_right</v-icon>
-                <v-breadcrumbs-item
-                    v-for="(breadcrumb, index) in breadcrumbs"
-                    :key="index"
-                    :to="breadcrumb.to" exact>
-                    {{ breadcrumb.label }}
-                </v-breadcrumbs-item>
-            </v-breadcrumbs>
+            <v-card class="mx-3 mt-4 mb-2">
+                <v-breadcrumbs>
+                    <v-icon slot="divider">chevron_right</v-icon>
+                    <v-breadcrumbs-item
+                        v-for="(breadcrumb, index) in breadcrumbs"
+                        :key="index"
+                        :to="breadcrumb.to" exact>
+                        {{ breadcrumb.label }}
+                    </v-breadcrumbs-item>
+                </v-breadcrumbs>
+            </v-card>
             <router-view />
         </v-content>
     </div>

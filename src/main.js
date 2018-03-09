@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueMeta from 'vue-meta'
 import VueAxios from 'vue-axios'
+import VueContentPlaceholders from 'vue-content-placeholders'
 import Vuetify from 'vuetify'
 import VeeValidate from 'vee-validate'
 import NProgress from 'vue-nprogress'
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueMeta)
 Vue.use(VueAxios, axios)
+Vue.use(VueContentPlaceholders)
 Vue.use(VeeValidate, {inject: false})
 Vue.use(Vuetify, {
     theme: {
@@ -89,19 +91,9 @@ router.beforeEach((to, from, next) => {
         } else {
             next({path: '/login'})
         }
-    } else if(!to.matched.some(record => record.meta.requiresAuth) && ['/login', '/signup'].indexOf(to.path) !== -1) {
+    } else if(to.matched.some(record => record.meta.guest)) {
         if(store.getters.get_user) {
-            if(helpers.isTimedOut(store.getters.get_user.timeLoggedIn)) {
-                store.dispatch('set_user', null)
-                store.dispatch('set_alert_message', {
-                    show: true,
-                    type: 'error',
-                    message: 'Your session has been timed out, please log in again to continue.'
-                })
-                next({path: '/login', query: {redirect: to.fullPath}})
-            } else {
-                next({path: '/dashboard'})
-            }
+            next({path: '/dashboard'})
         } else {
             next()
         }

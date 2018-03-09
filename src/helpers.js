@@ -30,6 +30,13 @@ export default {
             ? value.replace(/\b\w/g, function(l){ return l.toUpperCase() })
             : value
     },
+    camelCase: (value) => {
+        return typeof value === 'string'
+            ? value.replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
+                .replace(/\s/g, '')
+                .replace(/^(.)/, function($1) { return $1.toLowerCase(); })
+            : value
+    },
     // Functions ---------------------------------------------------------------
     handleResponse: (response) => {
         const handledResponse = {
@@ -85,5 +92,15 @@ export default {
     },
     isNumeric: (value) => {
         return Number.isNan(value) != false
+    },
+    isEmpty: (value) => {
+        if(value) {
+            for(let x in value) {
+                if(value.hasOwnProperty(x)) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 }

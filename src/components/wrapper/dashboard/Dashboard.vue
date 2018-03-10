@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import helpers from '../../../helpers'
+import { helpers } from '../../../config'
 import dashboardService from './dashboard.service'
 import Metrics from './dashlets/Metrics'
 import TopTopics from './dashlets/TopTopics'
@@ -100,8 +100,8 @@ export default {
         })
     },
     components: {
-        TopTopics,
-        Metrics
+        Metrics,
+        TopTopics
     },
     metaInfo() {
         return {

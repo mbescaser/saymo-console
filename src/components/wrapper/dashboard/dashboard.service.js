@@ -1,4 +1,4 @@
-import helpers from '../../../helpers'
+import { helpers } from '../../../config'
 
 export default {
     getDashboard: (context, userId) => {

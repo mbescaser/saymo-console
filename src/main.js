@@ -8,12 +8,15 @@ import VueContentPlaceholders from 'vue-content-placeholders'
 import Vuetify from 'vuetify'
 import VeeValidate from 'vee-validate'
 import NProgress from 'vue-nprogress'
+import {
+    axios,
+    constants,
+    helpers,
+    routes,
+    store,
+    libs
+} from './config'
 import App from './App'
-import { axios, constants } from './config'
-import helpers from './helpers'
-import routes from './routes'
-import store from './store'
-import libs from './libs'
 import './assets/sass/styles.scss'
 
 Vue.config.productionTip = false

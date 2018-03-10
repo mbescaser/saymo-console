@@ -36,17 +36,17 @@ Vue.use(Vuetify, {
 Vue.use(NProgress, {http: false})
 
 if(libs) {
-    for(let x in libs) {
-        for(let y in libs[x]) {
-            switch(x) {
+    for(let lib in libs) {
+        for(let entity in libs[lib]) {
+            switch(lib) {
                 case 'filters':
-                    Vue.filter(y, libs[x][y])
+                    Vue.filter(entity, libs[lib][entity])
                     break;
                 case 'components':
-                    Vue.component(y, libs[x][y])
+                    Vue.component(entity, libs[lib][entity])
                     break;
                 case 'directives':
-                    Vue.directive(y, libs[x][y])
+                    Vue.directive(entity, libs[lib][entity])
                     break;
             }
         }

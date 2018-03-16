@@ -39,7 +39,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import dashboardService from '../dashboard.service'
-import { helpers } from '../../../../config'
+import { helpers } from '@/config'
 
 export default {
     name: 'requested-places',

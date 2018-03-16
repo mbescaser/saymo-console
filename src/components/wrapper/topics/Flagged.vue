@@ -20,7 +20,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="row in flaggedTopics">
+                                <tr v-for="row of flaggedTopics">
                                     <td>{{ row.topicName }}</td>
                                     <td>{{ row.action }}</td>
                                     <td>{{ row.createdAt }}</td>

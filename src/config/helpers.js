@@ -7,14 +7,14 @@ export default {
             ? (count == 1
                 ? values.slice(0, count)[count - 1]
                 : values.slice(0, count))
-            : values
+            : null
     },
     last: (values, count = 1) => {
         return values != null && values.length && count > 0
             ? (count == 1
                 ? values.slice(-count)[count - 1]
                 : values.slice(-count))
-            : values
+            : null
     },
     unique: (values, propName = null) => {
         return values != null && values.length
@@ -22,7 +22,7 @@ export default {
             ? propName != null
                 ? values.filter((elem1, pos, self) => self.findIndex((elem2) => elem2[propName] === elem1[propName]) === pos)
                 : values.filter((elem, index, self) => index === self.indexOf(elem))
-            : values
+            : null
     },
     // Strings -----------------------------------------------------------------
     capitalize: (value) => {

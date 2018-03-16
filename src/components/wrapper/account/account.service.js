@@ -1,4 +1,4 @@
-import { helpers } from '../../../config'
+import { helpers } from '@/config'
 
 export default {
     postLogin: (context, username, password) => {

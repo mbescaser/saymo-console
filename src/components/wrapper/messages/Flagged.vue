@@ -21,7 +21,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="row in flaggedMessages">
+                                <tr v-for="row of flaggedMessages">
                                     <td>{{ row.topicName }}</td>
                                     <td>{{ row.message }}</td>
                                     <td>{{ row.action }}</td>

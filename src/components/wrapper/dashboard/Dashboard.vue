@@ -2,7 +2,7 @@
     <div class="">
         <v-container fluid grid-list-xl class="pt-3 px-3">
             <v-layout row wrap>
-                <v-flex v-for="(metric, index) in metrics" :key="metric.label" xs12 sm6 md4>
+                <v-flex v-for="(metric, index) of metrics" :key="metric.label" xs12 sm6 md4>
                     <metrics :metric="metric"></metrics>
                 </v-flex>
                 <v-flex xs12>
@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { helpers } from '../../../config'
+import { helpers } from '@/config'
 import dashboardService from './dashboard.service'
 import Metrics from './dashlets/Metrics'
 import TopTopics from './dashlets/TopTopics'
@@ -45,7 +45,7 @@ export default {
             }, {
                 icon: {
                     text: 'fas fa-sign-in-alt',
-                    bgColor: '#276CDA',
+                    bgColor: '#00C4A7',
                 },
                 label: 'Login',
                 uri: 'login'
@@ -66,7 +66,7 @@ export default {
             }, {
                 icon: {
                     text: 'fas fa-user-circle',
-                    bgColor: '#00C4A7',
+                    bgColor: '#276CDA',
                 },
                 label: 'Change Icon',
                 uri: 'changeIcon'

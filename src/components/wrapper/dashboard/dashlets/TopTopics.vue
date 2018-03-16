@@ -43,7 +43,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import dashboardService from '../dashboard.service'
-import { helpers } from '../../../../config'
+import { helpers } from '@/config'
 
 export default {
     name: 'top-topics',
@@ -72,7 +72,7 @@ export default {
     },
     mounted() {
         dashboardService.getTopTopics(this)
-            .then(async (response) => {
+            .then(async response => {
                 this.topTopicsTable.items = response.data.logs || []
                 if(this.topTopicsTable.items && this.topTopicsTable.items.length > 0) {
                     this.topTopicsTable.items = this.topTopicsTable.items.sort((a, b) => b.count - a.count)
@@ -80,7 +80,7 @@ export default {
                         const topic = this.topTopicsTable.items[i]
                         try {
                             const response = await dashboardService.getTopic(this, topic.url)
-                            this.$set(topic, 'topic', response.data || {})
+                            this.topTopicsTable.items.splice(i, 1, Object.assign(topic, { topic: response.data || [] }))
                         } catch (e) {
                             this.topTopicsTable.items.splice(i, 1)
                             i--
@@ -88,7 +88,9 @@ export default {
                     }
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                this.topTopicsTable.items = []
+            })
     },
     methods: {
         isEmpty(value) {

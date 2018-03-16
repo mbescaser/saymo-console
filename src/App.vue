@@ -11,10 +11,17 @@ import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 export default {
     name: 'App',
     mounted() {
-        const script = document.createElement('script')
-        script.defer = true
-        script.setAttribute('src', 'https://use.fontawesome.com/releases/v5.0.8/js/all.js')
-        document.head.appendChild(script)
+        const scripts = [{
+            src: 'https://use.fontawesome.com/releases/v5.0.8/js/all.js',
+            defer: true
+        }]
+        for(const script of scripts) {
+            const element = document.createElement('script')
+            for(let prop in script) {
+                element[prop] = script[prop]
+            }
+            document.head.appendChild(element)
+        }
     },
     components: {
         NprogressContainer

@@ -13,7 +13,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="row in requestedPlaces">
+                                <tr v-for="row of requestedPlaces">
                                     <td>{{ row.requestName }}</td>
                                     <td>{{ row.status }}</td>
                                     <td>{{ row.createdAt }}</td>

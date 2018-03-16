@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import VueMeta from 'vue-meta'
 import VueAxios from 'vue-axios'
 import VueContentPlaceholders from 'vue-content-placeholders'
+import * as VueGoogleMaps from 'vue2-google-maps'
 import Vuetify from 'vuetify'
 import VeeValidate from 'vee-validate'
 import NProgress from 'vue-nprogress'
@@ -23,8 +24,16 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueMeta)
 Vue.use(VueAxios, axios)
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: constants.googleMapsApiKey,
+        libraries: 'places'
+    }
+})
 Vue.use(VueContentPlaceholders)
-Vue.use(VeeValidate, {inject: false})
+Vue.use(VeeValidate, {
+    inject: false
+})
 Vue.use(Vuetify, {
     theme: {
         primary: '#F05426',
@@ -33,7 +42,9 @@ Vue.use(Vuetify, {
         error: '#ff1744'
     }
 })
-Vue.use(NProgress, {http: false})
+Vue.use(NProgress, {
+    http: false
+})
 
 if(libs) {
     for(let lib in libs) {

@@ -1,4 +1,4 @@
-import { helpers } from '../../../config'
+import { helpers } from '@/config'
 
 export default {
     getDashboard: (context, userId) => {
@@ -24,15 +24,6 @@ export default {
                 }
                 return Promise.reject(helpers.handleResponse(error))
             })
-    },
-    getFlaggedTopics: (context) => {
-
-    },
-    getFlaggedMessages: (context) => {
-
-    },
-    getRequestedPlaces: (context) => {
-
     },
     getMetrics: (context, uri, date) => {
         return context.axios.get(`https://s3-ap-northeast-1.amazonaws.com/saymo-logs-bucket/actions/${uri}/${date}/data.json`)

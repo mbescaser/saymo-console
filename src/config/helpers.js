@@ -37,7 +37,21 @@ export default {
                 .replace(/^(.)/, function($1) { return $1.toLowerCase(); })
             : value
     },
-    // Functions ---------------------------------------------------------------
+    kebabCase: (value) => {
+        return typeof value === 'string'
+            ? value.replace(/([a-z])([A-Z])/g, '$1-$2')
+                .replace(/\s+/g, '-')
+                .toLowerCase()
+            : value
+    },
+    snakeCase: (value) => {
+        return typeof value === 'string'
+            ? value.replace(/([a-z])([A-Z])/g, '$1_$2')
+                .replace(/\s+/g, '_')
+                .toLowerCase()
+            : value
+    },
+    // Miscs ---------------------------------------------------------------
     handleResponse: (response) => {
         const handledResponse = {
             code: response.status ? response.status : 0,
@@ -102,5 +116,19 @@ export default {
             }
         }
         return true
+    },
+    generateRandomNumber: (options = null) => {
+        const ops = Object.assign({min: 1, max: 0, zeroes: 1, precision: 0}, options);
+        const min = Math.ceil(ops.min)
+        const max = Math.floor(ops.max ? ops.max : `1e${ops.zeroes}`)
+        if(min < max) {
+            const random = Math.random() * (max - min + 1) + min
+            if(ops.precision) {
+                const power = Math.pow(10, ops.precision)
+                return Math.floor(random * power) / power
+            }
+            return Math.floor(random)
+        }
+        return Math.max(min, max);
     }
 }

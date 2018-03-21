@@ -41,7 +41,7 @@
         </v-navigation-drawer>
         <v-toolbar v-bind="toolbarOps" color="primary" dark app fixed>
             <v-toolbar-side-icon @click.stop="drawer.show = !drawer.show"></v-toolbar-side-icon>
-            <v-toolbar-title>Say.Mo</v-toolbar-title>
+            <v-toolbar-title>Say.mo</v-toolbar-title>
         </v-toolbar>
         <v-content>
             <v-card class="mx-3 mt-4 mb-2">

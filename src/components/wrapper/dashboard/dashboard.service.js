@@ -1,7 +1,7 @@
 import { helpers } from '@/config'
 
 export default {
-    getDashboard: (context, userId) => {
+    getDashboard(context, userId) {
         const user = context.$store.getters.get_user
         const config = {
             headers: {
@@ -25,7 +25,7 @@ export default {
                 return Promise.reject(helpers.handleResponse(error))
             })
     },
-    getMetrics: (context, uri, date) => {
+    getMetrics(context, uri, date) {
         return context.axios.get(`https://s3-ap-northeast-1.amazonaws.com/saymo-logs-bucket/actions/${uri}/${date}/data.json`)
             .then(response => {
                 return helpers.handleResponse(response)
@@ -34,7 +34,7 @@ export default {
                 return Promise.reject(helpers.handleResponse(error))
             })
     },
-    getTopTopics: (context) => {
+    getTopTopics(context) {
         return context.axios.get('https://s3-ap-northeast-1.amazonaws.com/saymo-logs-bucket/actions/postMessage/2018-03-01/data.json')
             .then(response => {
                 return helpers.handleResponse(response)
@@ -43,7 +43,7 @@ export default {
                 return Promise.reject(helpers.handleResponse(error))
             })
     },
-    getTopic: (context, url) => {
+    getTopic(context, url) {
         return context.axios.get(url)
             .then(response => {
                 return helpers.handleResponse(response)

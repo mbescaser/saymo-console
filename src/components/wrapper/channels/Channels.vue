@@ -1,14 +1,14 @@
 <template>
     <div class="">
         <v-container fluid grid-list-xl class="pt-3 px-3">
-            <v-card class="pa-3">
+            <v-card class="pa-3 mb-3">
                 <v-layout row wrap v-if="map.center">
                     <v-flex xs12>
                         <v-card-title class="pa-0">
                             <span>{{ map.address }}</span>
                             <v-spacer></v-spacer>
                             <v-btn
-                                color="primary"
+                                color="accent"
                                 class="ma-0"
                                 small
                                 @click="resetPlace()">
@@ -19,25 +19,26 @@
                     <v-flex xs12>
                         <gmap-map
                             :center="map.center"
-                            :zoom="16"
+                            :zoom="14"
                             @drag="mapDrag($refs.map.$mapObject.getCenter())"
                             @dragend="mapDragend($refs.map.$mapObject.getCenter())"
                             ref="map"
                             map-type-id="terrain"
                             style="width: 100%; height: 400px">
-                            <gmap-marker
-                                :position="map.marker">
-                            </gmap-marker>
+                            <gmap-marker :position="map.marker"></gmap-marker>
                         </gmap-map>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap v-else>
                     <v-flex xs12>
-                        <gmap-autocomplete
-                            style="width: 100%;outline: 0;"
-                            @place_changed="setPlace($event)">
-                        </gmap-autocomplete>
+                        <gmap-autocomplete style="width: 100%;outline: 0;" @place_changed="setPlace($event)"></gmap-autocomplete>
                     </v-flex>
+                </v-layout>
+            </v-card>
+            <v-card v-if="map.center" class="pa-3 mb-3">
+                <v-layout row wrap>
+                    {{ map.center }}
+                    {{ map.address }}
                 </v-layout>
             </v-card>
         </v-container>

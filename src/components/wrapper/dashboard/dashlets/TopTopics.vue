@@ -72,20 +72,20 @@ export default {
     },
     mounted() {
         dashboardService.getTopTopics(this)
-            .then(async response => {
-                this.topTopicsTable.items = response.data.logs || []
+            .then(response => {
+                this.topTopicsTable.items = (response.data.logs || []).sort((a, b) => b.count - a.count)
                 if(this.topTopicsTable.items && this.topTopicsTable.items.length > 0) {
-                    this.topTopicsTable.items = this.topTopicsTable.items.sort((a, b) => b.count - a.count)
-                    for(let i = 0; i < this.topTopicsTable.items.length; i++) {
-                        const topic = this.topTopicsTable.items[i]
-                        try {
-                            const response = await dashboardService.getTopic(this, topic.url)
-                            this.topTopicsTable.items.splice(i, 1, Object.assign(topic, { topic: response.data || [] }))
-                        } catch (e) {
-                            this.topTopicsTable.items.splice(i, 1)
-                            i--
-                        }
-                    }
+                    // for(let i = 0; i < this.topTopicsTable.items.length; i++) {
+                    //     const topic = this.topTopicsTable.items[i]
+                    //     try {
+                    //         const response = await dashboardService.getTopic(this, topic.url)
+                    //         this.topTopicsTable.items.splice(i, 1, Object.assign(topic, { topic: response.data || [] }))
+                    //     } catch (e) {
+                    //         this.topTopicsTable.items.splice(i, 1)
+                    //         i--
+                    //     }
+                    // }
+                    this.getTopic(this.topTopicsTable.items)
                 }
             })
             .catch(error => {
@@ -98,6 +98,18 @@ export default {
         },
         addToTopTopics() {
             console.log(this.toTopTopics)
+        },
+        async getTopic(topics) {
+            for(let i = 0; i < topics.length; i++) {
+                const topic = topics[i]
+                try {
+                    const response = await dashboardService.getTopic(this, topic.url)
+                    topics.splice(i, 1, Object.assign(topic, { topic: response.data || [] }))
+                } catch (e) {
+                    topics.splice(i, 1)
+                    i--
+                }
+            }
         }
     },
     computed: {

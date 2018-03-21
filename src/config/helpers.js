@@ -2,21 +2,21 @@ import constants from './constants'
 
 export default {
     // Arrays ------------------------------------------------------------------
-    first: (values, count = 1) => {
+    first(values, count = 1) {
         return values != null && values.length && count > 0
             ? (count == 1
                 ? values.slice(0, count)[count - 1]
                 : values.slice(0, count))
             : null
     },
-    last: (values, count = 1) => {
+    last(values, count = 1) {
         return values != null && values.length && count > 0
             ? (count == 1
                 ? values.slice(-count)[count - 1]
                 : values.slice(-count))
             : null
     },
-    unique: (values, propName = null) => {
+    unique(values, propName = null) {
         return values != null && values.length
             // ? values.some((elem) => typeof elem !== 'object') && propName != null
             ? propName != null
@@ -25,26 +25,26 @@ export default {
             : null
     },
     // Strings -----------------------------------------------------------------
-    capitalize: (value) => {
+    capitalize (value) {
         return typeof value === 'string'
             ? value.replace(/\b\w/g, function(l){ return l.toUpperCase() })
             : value
     },
-    camelCase: (value) => {
+    camelCase(value) {
         return typeof value === 'string'
             ? value.replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
                 .replace(/\s/g, '')
                 .replace(/^(.)/, function($1) { return $1.toLowerCase(); })
             : value
     },
-    kebabCase: (value) => {
+    kebabCase(value) {
         return typeof value === 'string'
             ? value.replace(/([a-z])([A-Z])/g, '$1-$2')
                 .replace(/\s+/g, '-')
                 .toLowerCase()
             : value
     },
-    snakeCase: (value) => {
+    snakeCase(value) {
         return typeof value === 'string'
             ? value.replace(/([a-z])([A-Z])/g, '$1_$2')
                 .replace(/\s+/g, '_')
@@ -52,7 +52,7 @@ export default {
             : value
     },
     // Miscs ---------------------------------------------------------------
-    handleResponse: (response) => {
+    handleResponse(response) {
         const handledResponse = {
             code: response.status ? response.status : 0,
             headers: response.headers != null ? response.headers : null,
@@ -81,7 +81,7 @@ export default {
         }
         return handledResponse
     },
-    refreshAccessToken: (context) => {
+    refreshAccessToken(context) {
         const user = context.$store.getters.get_user ? context.$store.getters.get_user : null
         return context.axios.post(`oauth/token`, {
                 refreshToken: user && user.tokens && user.tokens.refreshToken != null ? user.tokens.refreshToken : null
@@ -101,13 +101,13 @@ export default {
                 }
             })
     },
-    isTimedOut: (timeLoggedIn) => {
+    isTimedOut(timeLoggedIn) {
         return timeLoggedIn ? Math.floor((Date.now() / 1000) - (timeLoggedIn / 1000)) > constants.sessionLifetime : true
     },
-    isNumeric: (value) => {
+    isNumeric(value) {
         return Number.isNan(value) != false
     },
-    isEmpty: (value) => {
+    isEmpty(value) {
         if(value) {
             for(let x in value) {
                 if(value.hasOwnProperty(x)) {
@@ -117,7 +117,7 @@ export default {
         }
         return true
     },
-    generateRandomNumber: (options = null) => {
+    generateRandomNumber(options = null) {
         const ops = Object.assign({min: 1, max: 0, zeroes: 1, precision: 0}, options);
         const min = Math.ceil(ops.min)
         const max = Math.floor(ops.max ? ops.max : `1e${ops.zeroes}`)
@@ -130,5 +130,33 @@ export default {
             return Math.floor(random)
         }
         return Math.max(min, max);
+    },
+    generateLatLongUri(lat, lng) {
+        if(lat && lng) {
+            const parseDd = (dd) => {
+                const [_whole, _fraction] = String(dd).split('.')
+                const [__whole, __fraction] = String(Math.round((Number(_fraction) / Number(`1e${_fraction.length}`) * 60))).split('.')
+                return {
+                    first: {
+                        whole: Number(_whole),
+                        fraction: Number(_fraction)
+                    },
+                    second: {
+                        whole: Number(__whole),
+                        fraction: Number(__fraction)
+                    }
+                }
+            }
+            const latObj = parseDd(lat)
+            const lngObj = parseDd(lng)
+            const latUri = latObj.second.whole === 60
+                ? latObj.first.whole + 1
+                : `${latObj.first.whole}.${latObj.second.whole}`
+            const lngUri = lngObj.second.whole === 60
+                ? lngObj.first.whole + 1
+                : `${lngObj.first.whole}.${lngObj.second.whole}`
+            return `${latUri}_${lngUri}`
+        }
+        return null
     }
 }

@@ -1,7 +1,7 @@
 import { helpers } from '@/config'
 
 export default {
-    postLogin: (context, username, password) => {
+    postLogin(context, username, password) {
         const config = {
             auth: {
                 username: username,
@@ -16,7 +16,7 @@ export default {
                 return Promise.reject(helpers.handleResponse(error))
             })
     },
-    getUser: (context, userId = null) => {
+    getUser(context, userId = null) {
         const user = context.$store.getters.get_user
         const config = {
             headers: {

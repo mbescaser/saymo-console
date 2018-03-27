@@ -23,13 +23,14 @@ export default {
                 'Authorization': `Bearer ${user.tokens.accessToken}`
             }
         }
-        return context.axios.get(`auth/users/${userId != null ? userId : user.tokens.userId}`, config)
+        userId = userId || user.details.userId
+        return context.axios.get(`auth/users/${userId}`, config)
             .then(response => {
                 return helpers.handleResponse(response)
             })
             .catch(error => {
                 if(error.status == 401) {
-                    return functions.refreshAccessToken(context)
+                    return helpers.refreshAccessToken(context)
                         .then(response => {
                             return this.getUser.apply(this, arguments)
                         })

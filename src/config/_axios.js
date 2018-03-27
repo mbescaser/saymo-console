@@ -3,7 +3,7 @@ import app from '../main'
 import constants from './constants'
 
 const instance = axios.create({
-    baseURL: constants.apiURL,
+    baseURL: constants.serverApi,
 })
 
 instance.interceptors.request.use(request => {

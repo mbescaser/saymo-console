@@ -105,7 +105,7 @@ export default {
         return timeLoggedIn ? Math.floor((Date.now() / 1000) - (timeLoggedIn / 1000)) > constants.sessionLifetime : true
     },
     isNumeric(value) {
-        return Number.isNan(value) != false
+        return !Number.isNaN(value) && Number.isFinite(value)
     },
     isEmpty(value) {
         if(value) {
@@ -129,33 +129,25 @@ export default {
             }
             return Math.floor(random)
         }
-        return Math.max(min, max);
+        return Math.max(min, max)
     },
     generateLatLongUri(lat, lng) {
         if(lat && lng) {
-            const parseDd = (dd) => {
+            const fromDd = (dd) => {
                 const [_whole, _fraction] = String(dd).split('.')
                 const [__whole, __fraction] = String(Math.round((Number(_fraction) / Number(`1e${_fraction.length}`) * 60))).split('.')
                 return {
-                    first: {
-                        whole: Number(_whole),
-                        fraction: Number(_fraction)
-                    },
-                    second: {
-                        whole: Number(__whole),
-                        fraction: Number(__fraction)
-                    }
+                    first: {whole: Number(_whole), fraction: Number(_fraction)},
+                    second: {whole: Number(__whole), fraction: Number(__fraction)}
                 }
             }
-            const latObj = parseDd(lat)
-            const lngObj = parseDd(lng)
-            const latUri = latObj.second.whole === 60
-                ? latObj.first.whole + 1
-                : `${latObj.first.whole}.${latObj.second.whole}`
-            const lngUri = lngObj.second.whole === 60
-                ? lngObj.first.whole + 1
-                : `${lngObj.first.whole}.${lngObj.second.whole}`
-            return `${latUri}_${lngUri}`
+            const toDd = (dd) => {
+                const location = fromDd(dd)
+                return location.second.whole === 60
+                    ? location.first.whole + 1
+                    : `${location.first.whole}.${location.second.whole}`
+            }
+            return `${toDd(lat)}_${toDd(lng)}`
         }
         return null
     }

@@ -7,6 +7,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import accountService from '../account/account.service'
 
 export default {
     data() {

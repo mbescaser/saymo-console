@@ -24,7 +24,7 @@
                     <td>{{ props.item.count }}</td>
                 </tr>
                 <tr v-else>
-                    <td v-for="i in 4">
+                    <td v-for="i in topTopicsTable.headers.length">
                         <content-placeholders>
                             <content-placeholders-text :lines="1" />
                         </content-placeholders>
@@ -56,7 +56,7 @@ export default {
                     sortable: false,
                     width: '10%'
                 }, {
-                    text: 'Topic Name',
+                    text: 'Name',
                     sortable: false,
                     value: 'name',
                     width: '70%'
@@ -104,7 +104,7 @@ export default {
                 const topic = topics[i]
                 try {
                     const response = await dashboardService.getTopic(this, topic.url)
-                    topics.splice(i, 1, Object.assign(topic, { topic: response.data || [] }))
+                    topics.splice(i, 1, Object.assign(topic, { topic: response.data || {} }))
                 } catch (e) {
                     topics.splice(i, 1)
                     i--

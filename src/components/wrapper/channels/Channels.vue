@@ -49,8 +49,8 @@
                                     <td>{{ props.item.channel.description }}</td>
                                 </tr>
                                 <tr v-else>
-                                    <td v-for="i in channelsTable.headers.length">
-                                        <content-placeholders centered>
+                                    <td v-for="i of channelsTable.headers.length">
+                                        <content-placeholders>
                                             <content-placeholders-text :lines="1" />
                                         </content-placeholders>
                                     </td>
@@ -130,9 +130,9 @@ export default {
             if(newValue) {
                 channelService.getChannels(this, helpers.generateLatLongUri(newValue.lat, newValue.lng))
                     .then(response => {
-                        const channelList = response.data.channelList || []
-                        if(channelList && channelList.length > 0) {
-                            this.channelsTable.items = channelList
+                        const items = response.data.channelList || []
+                        if(items && items.length > 0) {
+                            this.channelsTable.items = items
                             this.channelsTable.nextSet = response.data.nextSet ? response.data.nextSet.shift() : null
                             this.getChannel(this.channelsTable.items)
                         }
@@ -168,24 +168,22 @@ export default {
             this.map = {center: null, marker: null, address: null}
             this.channelsTable.items = null
         },
-        async getChannel(channels, start = 0) {
-            for(let i = start; i < channels.length; i++) {
+        async getChannel(items, start = 0) {
+            const channels = []
+            for(let i = start; i < items.length; i++) {
                 try {
-                    const response = await channelService.getChannel(this, channels[i])
-                    channels.splice(i, 1, Object.assign({}, {url: channels[i], channel: response.data || []}))
-                } catch (e) {
-                    channels.splice(i, 1)
-                    i--
-                }
+                    const response = await channelService.getChannel(this, items[i])
+                    channels.push({url: items[i], channel: response.data || {}})
+                } catch (e) { }
             }
+            items.splice(start, items.length, ...channels)
         },
         getNextSet(nextSet) {
             channelService.getChannels(this, null, nextSet)
                 .then(response => {
-                    const channelList = response.data.channelList || []
-                    if(channelList && channelList.length > 0) {
-                        // this.channelsTable.items = this.channelsTable.items.concat(channelList)
-                        this.channelsTable.items.push(...channelList)
+                    const items = response.data.channelList || []
+                    if(items && items.length > 0) {
+                        this.channelsTable.items.push(...items)
                         this.channelsTable.nextSet = response.data.nextSet ? response.data.nextSet.shift() : null
                         this.getChannel(this.channelsTable.items, this.channelsTable.items.length - channelList.length)
                     }

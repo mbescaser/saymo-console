@@ -24,7 +24,7 @@
                     <td>{{ props.item.count }}</td>
                 </tr>
                 <tr v-else>
-                    <td v-for="i in topTopicsTable.headers.length">
+                    <td v-for="i of (topTopicsTable.headers.length + 1)">
                         <content-placeholders>
                             <content-placeholders-text :lines="1" />
                         </content-placeholders>
@@ -73,18 +73,9 @@ export default {
     mounted() {
         dashboardService.getTopTopics(this)
             .then(response => {
-                this.topTopicsTable.items = (response.data.logs || []).sort((a, b) => b.count - a.count)
-                if(this.topTopicsTable.items && this.topTopicsTable.items.length > 0) {
-                    // for(let i = 0; i < this.topTopicsTable.items.length; i++) {
-                    //     const topic = this.topTopicsTable.items[i]
-                    //     try {
-                    //         const response = await dashboardService.getTopic(this, topic.url)
-                    //         this.topTopicsTable.items.splice(i, 1, Object.assign(topic, { topic: response.data || [] }))
-                    //     } catch (e) {
-                    //         this.topTopicsTable.items.splice(i, 1)
-                    //         i--
-                    //     }
-                    // }
+                const items = response.data.logs || []
+                if(items && items.length > 0) {
+                    this.topTopicsTable.items = items.sort((a, b) => b.count - a.count)
                     this.getTopic(this.topTopicsTable.items)
                 }
             })
@@ -99,17 +90,16 @@ export default {
         addToTopTopics() {
             console.log(this.toTopTopics)
         },
-        async getTopic(topics) {
-            for(let i = 0; i < topics.length; i++) {
-                const topic = topics[i]
+        async getTopic(items, start = 0) {
+            const topics = []
+            for(let i = start; i < items.length; i++) {
+                const item = items[i]
                 try {
-                    const response = await dashboardService.getTopic(this, topic.url)
-                    topics.splice(i, 1, Object.assign(topic, { topic: response.data || {} }))
-                } catch (e) {
-                    topics.splice(i, 1)
-                    i--
-                }
+                    const response = await dashboardService.getTopic(this, item.url)
+                    topics.push(Object.assign(item, { topic: response.data || {}}))
+                } catch (e) { }
             }
+            items.splice(start, items.length, ...topics)
         }
     },
     computed: {
